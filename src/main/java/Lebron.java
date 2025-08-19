@@ -9,10 +9,10 @@ public class Lebron {
         lebron.goodbyeMessage();
     }
 
-    private ItemStore itemStore;
+    private TaskStore itemStore;
 
     public Lebron() {
-        itemStore = new ItemStore();
+        itemStore = new TaskStore();
     }
 
     private void welcomeMessage() {
@@ -63,17 +63,17 @@ public class Lebron {
     }
 
     private void handleRead(String item) {
-        itemStore.addItem(item);
+        itemStore.addItem(new Task(item));
         System.out.println("____________________________________________________________");
         System.out.println(" added: " + item);
         System.out.println("____________________________________________________________");
     }
 
     private void handleList() {
-        List<String> items = itemStore.readItems();
+        List<Task> items = itemStore.readItems();
         System.out.println("____________________________________________________________");
         for (int i = 0; i < items.size(); i++) {
-            System.out.println(" " + (i + 1) + ". " + items.get(i));
+            System.out.println(" " + (i + 1) + ". " + items.get(i).toString());
         }
         System.out.println("____________________________________________________________");
     }
