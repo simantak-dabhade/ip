@@ -50,21 +50,54 @@ public class Lebron {
 
             if (input.toLowerCase().startsWith("read ")) {
                 handleRead(input.substring(5)); // everything after "read "
-            } else if (input.toLowerCase().startsWith("todo ")) {
-                handleTodo(input.substring(5)); // everything after "todo "
-            } else if (input.toLowerCase().startsWith("deadline ")) {
-                handleDeadline(input.substring(9)); // everything after "deadline "
-            } else if (input.toLowerCase().startsWith("event ")) {
-                handleEvent(input.substring(6)); // everything after "event "
+            } else if (input.toLowerCase().startsWith("todo")) {
+                if (input.length() > 4 && input.charAt(4) == ' ') {
+                    handleTodo(input.substring(5)); // everything after "todo "
+                } else if (input.equalsIgnoreCase("todo")) {
+                    handleTodo(""); // empty todo
+                } else {
+                    handleTodo(input.substring(4)); // handle "todoX" cases
+                }
+            } else if (input.toLowerCase().startsWith("deadline")) {
+                if (input.length() > 8 && input.charAt(8) == ' ') {
+                    handleDeadline(input.substring(9)); // everything after "deadline "
+                } else if (input.equalsIgnoreCase("deadline")) {
+                    handleDeadline(""); // empty deadline
+                } else {
+                    handleDeadline(input.substring(8)); // handle "deadlineX" cases
+                }
+            } else if (input.toLowerCase().startsWith("event")) {
+                if (input.length() > 5 && input.charAt(5) == ' ') {
+                    handleEvent(input.substring(6)); // everything after "event "
+                } else if (input.equalsIgnoreCase("event")) {
+                    handleEvent(""); // empty event
+                } else {
+                    handleEvent(input.substring(5)); // handle "eventX" cases
+                }
             } else if (input.equalsIgnoreCase("list")) {
                 handleList();
-            } else if (input.toLowerCase().startsWith("mark ")) {
-                handleMark(input.substring(5)); // everything after "mark "
-            } else if (input.toLowerCase().startsWith("unmark ")) {
-                handleUnmark(input.substring(7)); // everything after "unmark "
+            } else if (input.toLowerCase().startsWith("mark")) {
+                if (input.length() > 4 && input.charAt(4) == ' ') {
+                    handleMark(input.substring(5)); // everything after "mark "
+                } else if (input.equalsIgnoreCase("mark")) {
+                    handleMark(""); // empty mark
+                } else {
+                    handleMark(input.substring(4)); // handle "markX" cases
+                }
+            } else if (input.toLowerCase().startsWith("unmark")) {
+                if (input.length() > 6 && input.charAt(6) == ' ') {
+                    handleUnmark(input.substring(7)); // everything after "unmark "
+                } else if (input.equalsIgnoreCase("unmark")) {
+                    handleUnmark(""); // empty unmark
+                } else {
+                    handleUnmark(input.substring(6)); // handle "unmarkX" cases
+                }
             } else {
                 System.out.println("____________________________________________________________");
-                System.out.println("Le-king: " + input);
+                System.out.println(" OOPS!!! I'm sorry, but I don't know what that means :-(");
+                System.out.println(" Try 'list', 'todo <description>', 'deadline <desc> /by <date>',");
+                System.out.println(" 'event <desc> /from <start> /to <end>', 'mark <number>',");
+                System.out.println(" 'unmark <number>', or 'bye'.");
                 System.out.println("____________________________________________________________");
             }
         }
@@ -90,6 +123,14 @@ public class Lebron {
     }
 
     private void handleMark(String indexStr) {
+        if (indexStr.trim().isEmpty()) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! Please specify which task to mark as done.");
+            System.out.println(" Use: mark <task number>");
+            System.out.println("____________________________________________________________");
+            return;
+        }
+        
         try {
             int index = Integer.parseInt(indexStr.trim()) - 1; // convert to 0-based index
             List<Task> items = itemStore.readItems();
@@ -103,17 +144,27 @@ public class Lebron {
                 System.out.println("____________________________________________________________");
             } else {
                 System.out.println("____________________________________________________________");
-                System.out.println(" Invalid task number!");
+                System.out.println(" OOPS!!! I don't have a task with that number.");
+                System.out.println(" Use 'list' to see your tasks first.");
                 System.out.println("____________________________________________________________");
             }
         } catch (NumberFormatException e) {
             System.out.println("____________________________________________________________");
-            System.out.println(" Please provide a valid task number!");
+            System.out.println(" OOPS!!! That's not a valid task number.");
+            System.out.println(" Please provide a number (e.g., mark 1)");
             System.out.println("____________________________________________________________");
         }
     }
 
     private void handleUnmark(String indexStr) {
+        if (indexStr.trim().isEmpty()) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! Please specify which task to mark as not done.");
+            System.out.println(" Use: unmark <task number>");
+            System.out.println("____________________________________________________________");
+            return;
+        }
+        
         try {
             int index = Integer.parseInt(indexStr.trim()) - 1; // convert to 0-based index
             List<Task> items = itemStore.readItems();
@@ -127,17 +178,26 @@ public class Lebron {
                 System.out.println("____________________________________________________________");
             } else {
                 System.out.println("____________________________________________________________");
-                System.out.println(" Invalid task number!");
+                System.out.println(" OOPS!!! I don't have a task with that number.");
+                System.out.println(" Use 'list' to see your tasks first.");
                 System.out.println("____________________________________________________________");
             }
         } catch (NumberFormatException e) {
             System.out.println("____________________________________________________________");
-            System.out.println(" Please provide a valid task number!");
+            System.out.println(" OOPS!!! That's not a valid task number.");
+            System.out.println(" Please provide a number (e.g., unmark 1)");
             System.out.println("____________________________________________________________");
         }
     }
 
     private void handleTodo(String description) {
+        if (description.trim().isEmpty()) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! The description of a todo cannot be empty.");
+            System.out.println("____________________________________________________________");
+            return;
+        }
+        
         Todo todo = new Todo(description);
         itemStore.addItem(todo);
         System.out.println("____________________________________________________________");
@@ -148,10 +208,34 @@ public class Lebron {
     }
 
     private void handleDeadline(String input) {
+        if (input.trim().isEmpty()) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! The description of a deadline cannot be empty.");
+            System.out.println(" Please use format: deadline <description> /by <date>");
+            System.out.println("____________________________________________________________");
+            return;
+        }
+        
         String[] parts = input.split(" /by ", 2);
         if (parts.length == 2) {
             String description = parts[0].trim();
             String by = parts[1].trim();
+            
+            if (description.isEmpty()) {
+                System.out.println("____________________________________________________________");
+                System.out.println(" OOPS!!! The description of a deadline cannot be empty.");
+                System.out.println("____________________________________________________________");
+                return;
+            }
+            
+            if (by.isEmpty()) {
+                System.out.println("____________________________________________________________");
+                System.out.println(" OOPS!!! Please specify when the deadline is due.");
+                System.out.println(" Please use format: deadline <description> /by <date>");
+                System.out.println("____________________________________________________________");
+                return;
+            }
+            
             Deadline deadline = new Deadline(description, by);
             itemStore.addItem(deadline);
             System.out.println("____________________________________________________________");
@@ -161,12 +245,21 @@ public class Lebron {
             System.out.println("____________________________________________________________");
         } else {
             System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! I need both a description and a due date.");
             System.out.println(" Please use format: deadline <description> /by <date>");
             System.out.println("____________________________________________________________");
         }
     }
 
     private void handleEvent(String input) {
+        if (input.trim().isEmpty()) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! The description of an event cannot be empty.");
+            System.out.println(" Please use format: event <description> /from <start> /to <end>");
+            System.out.println("____________________________________________________________");
+            return;
+        }
+        
         String[] parts = input.split(" /from ", 2);
         if (parts.length == 2) {
             String description = parts[0].trim();
@@ -174,6 +267,30 @@ public class Lebron {
             if (timeParts.length == 2) {
                 String from = timeParts[0].trim();
                 String to = timeParts[1].trim();
+                
+                if (description.isEmpty()) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! The description of an event cannot be empty.");
+                    System.out.println("____________________________________________________________");
+                    return;
+                }
+                
+                if (from.isEmpty()) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! Please specify when the event starts.");
+                    System.out.println(" Please use format: event <description> /from <start> /to <end>");
+                    System.out.println("____________________________________________________________");
+                    return;
+                }
+                
+                if (to.isEmpty()) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! Please specify when the event ends.");
+                    System.out.println(" Please use format: event <description> /from <start> /to <end>");
+                    System.out.println("____________________________________________________________");
+                    return;
+                }
+                
                 Event event = new Event(description, from, to);
                 itemStore.addItem(event);
                 System.out.println("____________________________________________________________");
@@ -183,11 +300,13 @@ public class Lebron {
                 System.out.println("____________________________________________________________");
             } else {
                 System.out.println("____________________________________________________________");
+                System.out.println(" OOPS!!! I need both start and end times for the event.");
                 System.out.println(" Please use format: event <description> /from <start> /to <end>");
                 System.out.println("____________________________________________________________");
             }
         } else {
             System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! I need a description and timing for the event.");
             System.out.println(" Please use format: event <description> /from <start> /to <end>");
             System.out.println("____________________________________________________________");
         }
