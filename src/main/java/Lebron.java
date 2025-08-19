@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.List;
 
 public class Lebron {
     public static void main(String[] args) {
@@ -6,6 +7,12 @@ public class Lebron {
         lebron.welcomeMessage();
         lebron.chatLoop();
         lebron.goodbyeMessage();
+    }
+
+    private ItemStore itemStore;
+
+    public Lebron() {
+        itemStore = new ItemStore();
     }
 
     private void welcomeMessage() {
@@ -34,19 +41,40 @@ public class Lebron {
 
         while (true) {
             System.out.print("You: ");
-            String input = scanner.nextLine();
+            String input = scanner.nextLine().trim();
 
-            // breaking out if the person types bye
+            // exit condition
             if (input.equalsIgnoreCase("bye")) {
                 break;
             }
 
-            System.out.println("____________________________________________________________");
-            System.out.println("Le-king: " + input); // echo back
-            System.out.println("____________________________________________________________");
+            if (input.toLowerCase().startsWith("read ")) {
+                handleRead(input.substring(5)); // everything after "read "
+            } else if (input.equalsIgnoreCase("list")) {
+                handleList();
+            } else {
+                System.out.println("____________________________________________________________");
+                System.out.println("Le-king: " + input);
+                System.out.println("____________________________________________________________");
+            }
         }
 
         scanner.close();
     }
 
+    private void handleRead(String item) {
+        itemStore.addItem(item);
+        System.out.println("____________________________________________________________");
+        System.out.println(" added: " + item);
+        System.out.println("____________________________________________________________");
+    }
+
+    private void handleList() {
+        List<String> items = itemStore.readItems();
+        System.out.println("____________________________________________________________");
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println(" " + (i + 1) + ". " + items.get(i));
+        }
+        System.out.println("____________________________________________________________");
+    }
 }
