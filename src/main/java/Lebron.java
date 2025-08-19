@@ -92,12 +92,20 @@ public class Lebron {
                 } else {
                     handleUnmark(input.substring(6)); // handle "unmarkX" cases
                 }
+            } else if (input.toLowerCase().startsWith("delete")) {
+                if (input.length() > 6 && input.charAt(6) == ' ') {
+                    handleDelete(input.substring(7)); // everything after "delete "
+                } else if (input.equalsIgnoreCase("delete")) {
+                    handleDelete(""); // empty delete
+                } else {
+                    handleDelete(input.substring(6)); // handle "deleteX" cases
+                }
             } else {
                 System.out.println("____________________________________________________________");
                 System.out.println(" OOPS!!! I'm sorry, but I don't know what that means :-(");
                 System.out.println(" Try 'list', 'todo <description>', 'deadline <desc> /by <date>',");
                 System.out.println(" 'event <desc> /from <start> /to <end>', 'mark <number>',");
-                System.out.println(" 'unmark <number>', or 'bye'.");
+                System.out.println(" 'unmark <number>', 'delete <number>', or 'bye'.");
                 System.out.println("____________________________________________________________");
             }
         }
@@ -308,6 +316,39 @@ public class Lebron {
             System.out.println("____________________________________________________________");
             System.out.println(" OOPS!!! I need a description and timing for the event.");
             System.out.println(" Please use format: event <description> /from <start> /to <end>");
+            System.out.println("____________________________________________________________");
+        }
+    }
+
+    private void handleDelete(String indexStr) {
+        if (indexStr.trim().isEmpty()) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! Please specify which task to delete.");
+            System.out.println(" Use: delete <task number>");
+            System.out.println("____________________________________________________________");
+            return;
+        }
+        
+        try {
+            int index = Integer.parseInt(indexStr.trim()) - 1; // convert to 0-based index
+            Task deletedTask = itemStore.deleteItem(index);
+            
+            if (deletedTask != null) {
+                System.out.println("____________________________________________________________");
+                System.out.println(" Noted. I've removed this task:");
+                System.out.println("   " + deletedTask.toString());
+                System.out.println(" Now you have " + itemStore.readItems().size() + " tasks in the list.");
+                System.out.println("____________________________________________________________");
+            } else {
+                System.out.println("____________________________________________________________");
+                System.out.println(" OOPS!!! I don't have a task with that number.");
+                System.out.println(" Use 'list' to see your tasks first.");
+                System.out.println("____________________________________________________________");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" OOPS!!! That's not a valid task number.");
+            System.out.println(" Please provide a number (e.g., delete 1)");
             System.out.println("____________________________________________________________");
         }
     }

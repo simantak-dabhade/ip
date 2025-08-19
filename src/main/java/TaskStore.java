@@ -16,4 +16,11 @@ public class TaskStore {
     public List<Task> readItems() {
         return items;
     }
+
+    public Task deleteItem(int index) {
+        if (index >= 0 && index < items.size()) {
+            return items.remove(index);
+        }
+        return null;
+    }
 }
