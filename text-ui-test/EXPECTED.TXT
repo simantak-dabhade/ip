@@ -43,6 +43,16 @@ You: ____________________________________________________________
  3.[E][X] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 You: ____________________________________________________________
+ Noted. I've removed this task:
+   [E][X] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+You: ____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][X] borrow book
+ 2.[D][ ] return book (by: Sunday)
+____________________________________________________________
+You: ____________________________________________________________
  OK, I've marked this task as not done yet:
    [T][ ] borrow book
 ____________________________________________________________
@@ -50,7 +60,18 @@ You: ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] borrow book
  2.[D][ ] return book (by: Sunday)
- 3.[E][X] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+You: ____________________________________________________________
+ OOPS!!! Please specify which task to delete.
+ Use: delete <task number>
+____________________________________________________________
+You: ____________________________________________________________
+ OOPS!!! That's not a valid task number.
+ Please provide a number (e.g., delete 1)
+____________________________________________________________
+You: ____________________________________________________________
+ OOPS!!! I don't have a task with that number.
+ Use 'list' to see your tasks first.
 ____________________________________________________________
 You: ____________________________________________________________
  OOPS!!! The description of a todo cannot be empty.
@@ -91,13 +112,13 @@ You: ____________________________________________________________
  OOPS!!! I'm sorry, but I don't know what that means :-(
  Try 'list', 'todo <description>', 'deadline <desc> /by <date>',
  'event <desc> /from <start> /to <end>', 'mark <number>',
- 'unmark <number>', or 'bye'.
+ 'unmark <number>', 'delete <number>', or 'bye'.
 ____________________________________________________________
 You: ____________________________________________________________
  OOPS!!! I'm sorry, but I don't know what that means :-(
  Try 'list', 'todo <description>', 'deadline <desc> /by <date>',
  'event <desc> /from <start> /to <end>', 'mark <number>',
- 'unmark <number>', or 'bye'.
+ 'unmark <number>', 'delete <number>', or 'bye'.
 ____________________________________________________________
 You: ___________________________________________________________
  Bye. Hope to see you again soon!
