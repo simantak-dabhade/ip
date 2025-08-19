@@ -52,6 +52,10 @@ public class Lebron {
                 handleRead(input.substring(5)); // everything after "read "
             } else if (input.equalsIgnoreCase("list")) {
                 handleList();
+            } else if (input.toLowerCase().startsWith("mark ")) {
+                handleMark(input.substring(5)); // everything after "mark "
+            } else if (input.toLowerCase().startsWith("unmark ")) {
+                handleUnmark(input.substring(7)); // everything after "unmark "
             } else {
                 System.out.println("____________________________________________________________");
                 System.out.println("Le-king: " + input);
@@ -76,5 +80,53 @@ public class Lebron {
             System.out.println(" " + (i + 1) + ". " + items.get(i).toString());
         }
         System.out.println("____________________________________________________________");
+    }
+
+    private void handleMark(String indexStr) {
+        try {
+            int index = Integer.parseInt(indexStr.trim()) - 1; // convert to 0-based index
+            List<Task> items = itemStore.readItems();
+            
+            if (index >= 0 && index < items.size()) {
+                Task task = items.get(index);
+                task.setDone(true);
+                System.out.println("____________________________________________________________");
+                System.out.println(" Nice! I've marked this task as done:");
+                System.out.println("   " + task.toString());
+                System.out.println("____________________________________________________________");
+            } else {
+                System.out.println("____________________________________________________________");
+                System.out.println(" Invalid task number!");
+                System.out.println("____________________________________________________________");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" Please provide a valid task number!");
+            System.out.println("____________________________________________________________");
+        }
+    }
+
+    private void handleUnmark(String indexStr) {
+        try {
+            int index = Integer.parseInt(indexStr.trim()) - 1; // convert to 0-based index
+            List<Task> items = itemStore.readItems();
+            
+            if (index >= 0 && index < items.size()) {
+                Task task = items.get(index);
+                task.setDone(false);
+                System.out.println("____________________________________________________________");
+                System.out.println(" OK, I've marked this task as not done yet:");
+                System.out.println("   " + task.toString());
+                System.out.println("____________________________________________________________");
+            } else {
+                System.out.println("____________________________________________________________");
+                System.out.println(" Invalid task number!");
+                System.out.println("____________________________________________________________");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("____________________________________________________________");
+            System.out.println(" Please provide a valid task number!");
+            System.out.println("____________________________________________________________");
+        }
     }
 }
