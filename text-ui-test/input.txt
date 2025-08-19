@@ -8,7 +8,15 @@ mark 3
 list
 unmark 1
 list
-todo invalid command test
+todo
+deadline
+event
+mark
+unmark
+mark abc
+unmark xyz
 mark 99
 unmark 0
+blah
+invalid command
 bye
