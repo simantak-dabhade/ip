@@ -1,6 +1,6 @@
-public class Task {
-    private String description;
-    private boolean done;
+public abstract class Task {
+    protected String description;
+    protected boolean done;
 
     public Task(String description) {
         this.description = description;
@@ -23,8 +23,10 @@ public class Task {
         this.done = done;
     }
 
+    public abstract String getTypeIcon();
+
     @Override
     public String toString() {
-        return done ? "[X] " + description : "[ ] " + description;
+        return getTypeIcon() + (done ? "[X] " : "[ ] ") + description;
     }
 }
