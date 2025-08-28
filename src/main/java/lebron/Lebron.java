@@ -1,3 +1,11 @@
+package lebron;
+
+import lebron.storage.Storage;
+import lebron.data.TaskList;
+import lebron.ui.Ui;
+import lebron.parser.Parser;
+import lebron.task.*;
+
 public class Lebron {
     private Storage storage;
     private TaskList tasks;

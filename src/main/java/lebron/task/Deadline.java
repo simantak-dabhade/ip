@@ -1,38 +1,29 @@
+package lebron.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class Event extends Task {
-    private LocalDateTime from;
-    private LocalDateTime to;
+public class Deadline extends Task {
+    private LocalDateTime by;
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
 
-    public Event(String description, String fromStr, String toStr) {
+    public Deadline(String description, String byStr) {
         super(description);
-        this.from = parseDateTime(fromStr);
-        this.to = parseDateTime(toStr);
+        this.by = parseDateTime(byStr);
     }
 
-    public Event(String description, LocalDateTime from, LocalDateTime to) {
+    public Deadline(String description, LocalDateTime by) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.by = by;
     }
 
-    public LocalDateTime getFrom() {
-        return from;
+    public LocalDateTime getBy() {
+        return by;
     }
 
-    public LocalDateTime getTo() {
-        return to;
-    }
-
-    public String getFromString() {
-        return from.format(OUTPUT_FORMATTER);
-    }
-
-    public String getToString() {
-        return to.format(OUTPUT_FORMATTER);
+    public String getByString() {
+        return by.format(OUTPUT_FORMATTER);
     }
 
     private LocalDateTime parseDateTime(String dateTimeStr) {
@@ -90,11 +81,11 @@ public class Event extends Task {
 
     @Override
     public String getTypeIcon() {
-        return "[E]";
+        return "[D]";
     }
 
     @Override
     public String toString() {
-        return getTypeIcon() + (done ? "[X] " : "[ ] ") + description + " (from: " + getFromString() + " to: " + getToString() + ")";
+        return getTypeIcon() + (done ? "[X] " : "[ ] ") + description + " (by: " + getByString() + ")";
     }
 }

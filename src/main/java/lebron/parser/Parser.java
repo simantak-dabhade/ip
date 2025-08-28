@@ -1,3 +1,5 @@
+package lebron.parser;
+
 public class Parser {
     
     public enum CommandType {

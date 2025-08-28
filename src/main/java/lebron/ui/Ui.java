@@ -1,5 +1,8 @@
+package lebron.ui;
+
 import java.util.Scanner;
 import java.util.List;
+import lebron.task.Task;
 
 public class Ui {
     private Scanner scanner;
