@@ -9,13 +9,34 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import lebron.task.*;
 
+/**
+ * The Storage class is like Lebron's personal assistant for keeping track of your tasks!
+ * 
+ * It knows how to save your tasks to a file and load them back up when you restart
+ * the chatbot. It handles all the messy details of file I/O and data formatting
+ * so you don't have to worry about losing your precious task list.
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * Creates a new Storage handler for the specified file.
+     * 
+     * @param filePath where to save and load your tasks from
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads all your saved tasks from the file.
+     * 
+     * If the file doesn't exist yet (maybe this is your first time?), that's totally fine -
+     * we'll just return an empty list and you can start fresh. If there are any hiccups
+     * reading the file, we'll do our best to recover and skip the problematic lines.
+     * 
+     * @return a list of all your saved tasks
+     */
     public List<Task> load() {
         List<Task> tasks = new ArrayList<>();
         try {
@@ -38,6 +59,15 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves all your tasks to the file for safekeeping.
+     * 
+     * This makes sure your task list survives between chat sessions. The method
+     * automatically creates any needed directories and handles the file formatting.
+     * If something goes wrong, it'll let you know but won't crash the program.
+     * 
+     * @param tasks the complete list of tasks to save
+     */
     public void save(List<Task> tasks) {
         try {
             Files.createDirectories(Paths.get(filePath).getParent());
