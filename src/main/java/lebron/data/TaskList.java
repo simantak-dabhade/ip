@@ -12,7 +12,7 @@ public class TaskList {
     }
 
     public TaskList(List<Task> tasks) {
-        this.tasks = tasks;
+        this.tasks = (tasks != null) ? tasks : new ArrayList<>();
     }
 
     public void add(Task task) {
