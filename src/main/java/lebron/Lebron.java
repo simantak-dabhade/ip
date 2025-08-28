@@ -6,11 +6,34 @@ import lebron.ui.Ui;
 import lebron.parser.Parser;
 import lebron.task.*;
 
+/**
+ * The main class for the Lebron chatbot - your personal task management assistant.
+ * 
+ * This chatbot helps you keep track of todos, deadlines, and events through a simple
+ * command-line interface. Just like the GOAT himself, it's reliable and gets the job done!
+ * 
+ * Features include:
+ * - Managing different types of tasks (todos, deadlines, events)
+ * - Persistent storage of your tasks
+ * - Smart date parsing for deadlines and events
+ * - Search functionality to find specific tasks
+ * 
+ * @author Your friendly neighborhood developer
+ * @version 1.0
+ */
 public class Lebron {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Creates a new Lebron chatbot instance and loads existing tasks from storage.
+     * 
+     * If there's an issue loading your saved tasks (maybe the file is corrupted or missing),
+     * don't worry - we'll start fresh with an empty task list and let you know what happened.
+     * 
+     * @param filePath the path to the file where your tasks are stored
+     */
     public Lebron(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -22,6 +45,13 @@ public class Lebron {
         }
     }
 
+    /**
+     * Starts the main chat loop where all the magic happens!
+     * 
+     * This method handles the interactive conversation with you, processing each command
+     * and keeping things running smoothly until you decide to say goodbye. It's designed
+     * to be forgiving - if something goes wrong, we'll catch it and keep going.
+     */
     public void run() {
         ui.showWelcome();
         
@@ -233,6 +263,14 @@ public class Lebron {
         storage.save(tasks.getAllTasks());
     }
 
+    /**
+     * The entry point for the Lebron chatbot application.
+     * 
+     * This starts up the chatbot with the default data file location.
+     * Your tasks will be saved to and loaded from "./data/lebron_data.txt".
+     * 
+     * @param args command line arguments (currently not used, but hey, maybe in the future!)
+     */
     public static void main(String[] args) {
         new Lebron("./data/lebron_data.txt").run();
     }

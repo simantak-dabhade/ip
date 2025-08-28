@@ -1,11 +1,30 @@
 package lebron.parser;
 
+/**
+ * The Parser class handles the tricky business of understanding what you're trying to say!
+ * 
+ * It takes your raw input and transforms it into something the chatbot can work with.
+ * This class is pretty smart - it can handle typos, case differences, and various
+ * ways you might phrase commands.
+ */
 public class Parser {
     
+    /**
+     * All the different types of commands that Lebron understands.
+     * 
+     * From simple todos to complex events, we've got you covered.
+     * If we don't recognize something, it gets labeled as UNKNOWN.
+     */
     public enum CommandType {
-        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, BYE, UNKNOWN
+        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, FIND, BYE, UNKNOWN
     }
 
+    /**
+     * A neat little package that holds a parsed command.
+     * 
+     * Think of it as a structured way to represent what you want to do
+     * and any details that go with it.
+     */
     public static class Command {
         private CommandType type;
         private String argument;
@@ -15,15 +34,33 @@ public class Parser {
             this.argument = argument;
         }
 
+        /**
+         * Gets the type of command (todo, deadline, etc.)
+         * @return the command type
+         */
         public CommandType getType() {
             return type;
         }
 
+        /**
+         * Gets any additional info that came with the command
+         * @return the argument string, or empty string if none
+         */
         public String getArgument() {
             return argument;
         }
     }
 
+    /**
+     * The main parsing method - this is where the magic happens!
+     * 
+     * Takes whatever you type and figures out what you mean. It's pretty flexible -
+     * handles different cases, extra spaces, and various ways of writing commands.
+     * When in doubt, it tries to be helpful rather than strict.
+     * 
+     * @param input what you typed in the chat
+     * @return a Command object with the parsed command type and arguments
+     */
     public static Command parse(String input) {
         if (input == null || input.trim().isEmpty()) {
             return new Command(CommandType.UNKNOWN, "");
@@ -96,6 +133,16 @@ public class Parser {
                 return new Command(CommandType.DELETE, "");
             } else {
                 return new Command(CommandType.DELETE, trimmed.substring(6));
+            }
+        }
+
+        if (trimmed.toLowerCase().startsWith("find")) {
+            if (trimmed.length() > 4 && trimmed.charAt(4) == ' ') {
+                return new Command(CommandType.FIND, trimmed.substring(5));
+            } else if (trimmed.equalsIgnoreCase("find")) {
+                return new Command(CommandType.FIND, "");
+            } else {
+                return new Command(CommandType.FIND, trimmed.substring(4));
             }
         }
 
