@@ -146,6 +146,7 @@ public class Lebron {
             if (index >= 0 && index < items.size()) {
                 Task task = items.get(index);
                 task.setDone(true);
+                itemStore.updateTask();
                 System.out.println("____________________________________________________________");
                 System.out.println(" Nice! I've marked this task as done:");
                 System.out.println("   " + task.toString());
@@ -180,6 +181,7 @@ public class Lebron {
             if (index >= 0 && index < items.size()) {
                 Task task = items.get(index);
                 task.setDone(false);
+                itemStore.updateTask();
                 System.out.println("____________________________________________________________");
                 System.out.println(" OK, I've marked this task as not done yet:");
                 System.out.println("   " + task.toString());
