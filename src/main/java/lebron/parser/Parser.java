@@ -7,8 +7,8 @@ public class Parser {
     }
 
     public static class Command {
-        private CommandType type;
-        private String argument;
+        private final CommandType type;
+        private final String argument;
 
         public Command(CommandType type, String argument) {
             this.type = type;

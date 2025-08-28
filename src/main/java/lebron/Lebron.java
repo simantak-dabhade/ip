@@ -7,9 +7,9 @@ import lebron.parser.Parser;
 import lebron.task.*;
 
 public class Lebron {
-    private Storage storage;
+    private final Storage storage;
     private TaskList tasks;
-    private Ui ui;
+    private final Ui ui;
 
     public Lebron(String filePath) {
         ui = new Ui();
