@@ -6,69 +6,46 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class TaskStore {
+public class Storage {
+    private final String filePath;
 
-    private List<Task> items;
-    private static final String DATA_FILE_PATH = "./data/lebron_data.txt";
-
-    public TaskStore() {
-        items = new ArrayList<>();
-        loadFromFile();
+    public Storage(String filePath) {
+        this.filePath = filePath;
     }
 
-    public void addItem(Task item) {
-        items.add(item);
-        saveToFile();
-    }
-
-    public List<Task> readItems() {
-        return items;
-    }
-
-    public Task deleteItem(int index) {
-        if (index >= 0 && index < items.size()) {
-            Task deletedTask = items.remove(index);
-            saveToFile();
-            return deletedTask;
-        }
-        return null;
-    }
-
-    public void updateTask() {
-        saveToFile();
-    }
-
-    private void saveToFile() {
+    public List<Task> load() {
+        List<Task> tasks = new ArrayList<>();
         try {
-            Files.createDirectories(Paths.get("./data"));
-            
-            try (PrintWriter writer = new PrintWriter(new FileWriter(DATA_FILE_PATH))) {
-                for (Task task : items) {
-                    writer.println(formatTaskForFile(task));
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving tasks to file: " + e.getMessage());
-        }
-    }
-
-    private void loadFromFile() {
-        try {
-            if (!Files.exists(Paths.get(DATA_FILE_PATH))) {
-                return;
+            if (!Files.exists(Paths.get(filePath))) {
+                return tasks;
             }
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(DATA_FILE_PATH))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     Task task = parseTaskFromFile(line);
                     if (task != null) {
-                        items.add(task);
+                        tasks.add(task);
                     }
                 }
             }
         } catch (IOException e) {
             System.err.println("Error loading tasks from file: " + e.getMessage());
+        }
+        return tasks;
+    }
+
+    public void save(List<Task> tasks) {
+        try {
+            Files.createDirectories(Paths.get(filePath).getParent());
+            
+            try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+                for (Task task : tasks) {
+                    writer.println(formatTaskForFile(task));
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving tasks to file: " + e.getMessage());
         }
     }
 
@@ -131,7 +108,5 @@ public class TaskStore {
         }
 
         return task;
-
-
     }
 }
