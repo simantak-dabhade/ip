@@ -108,6 +108,20 @@ public class Ui {
         System.out.println(" Try 'list', 'todo <description>', 'deadline <desc> /by <date>',");
         System.out.println(" 'event <desc> /from <start> /to <end>', 'mark <number>',");
         System.out.println(" 'unmark <number>', 'delete <number>', 'find <keyword>', or 'bye'.");
+
+        showLine();
+    }
+
+    public void showFindResults(List<Task> matchingTasks, String keyword) {
+        showLine();
+        if (matchingTasks.isEmpty()) {
+            System.out.println(" No matching tasks found with keyword: " + keyword);
+        } else {
+            System.out.println(" Here are the matching tasks in your list:");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println(" " + (i + 1) + "." + matchingTasks.get(i).toString());
+            }
+        }
         showLine();
     }
 
