@@ -47,4 +47,21 @@ public class TaskList {
             task.setDone(isDone);
         }
     }
+
+    public List<Task> findTasks(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        
+        List<Task> matchingTasks = new ArrayList<>();
+        String lowercaseKeyword = keyword.trim().toLowerCase();
+        
+        for (Task task : tasks) {
+            if (task != null && task.getDescription().toLowerCase().contains(lowercaseKeyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        
+        return matchingTasks;
+    }
 }

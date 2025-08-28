@@ -5,6 +5,7 @@ import lebron.data.TaskList;
 import lebron.ui.Ui;
 import lebron.parser.Parser;
 import lebron.task.*;
+import java.util.List;
 
 public class Lebron {
     private Storage storage;
@@ -55,6 +56,9 @@ public class Lebron {
                         break;
                     case DELETE:
                         handleDelete(command.getArgument());
+                        break;
+                    case FIND:
+                        handleFind(command.getArgument());
                         break;
                     case UNKNOWN:
                         ui.showUnknownCommand();
@@ -227,6 +231,16 @@ public class Lebron {
         } catch (NumberFormatException e) {
             ui.showError("That's not a valid task number.\\nPlease provide a number (e.g., delete 1)");
         }
+    }
+
+    private void handleFind(String keyword) {
+        if (keyword.trim().isEmpty()) {
+            ui.showError("Please specify a keyword to search for.\\nUse: find <keyword>");
+            return;
+        }
+        
+        List<Task> matchingTasks = tasks.findTasks(keyword);
+        ui.showFindResults(matchingTasks, keyword);
     }
 
     private void saveToStorage() {

@@ -3,7 +3,7 @@ package lebron.parser;
 public class Parser {
     
     public enum CommandType {
-        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, BYE, UNKNOWN
+        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, FIND, BYE, UNKNOWN
     }
 
     public static class Command {
@@ -96,6 +96,16 @@ public class Parser {
                 return new Command(CommandType.DELETE, "");
             } else {
                 return new Command(CommandType.DELETE, trimmed.substring(6));
+            }
+        }
+
+        if (trimmed.toLowerCase().startsWith("find")) {
+            if (trimmed.length() > 4 && trimmed.charAt(4) == ' ') {
+                return new Command(CommandType.FIND, trimmed.substring(5));
+            } else if (trimmed.equalsIgnoreCase("find")) {
+                return new Command(CommandType.FIND, "");
+            } else {
+                return new Command(CommandType.FIND, trimmed.substring(4));
             }
         }
 
