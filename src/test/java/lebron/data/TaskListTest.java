@@ -235,4 +235,112 @@ class TaskListTest {
         assertTrue(taskList.get(0).isDone());
         assertFalse(taskList.get(1).isDone());
     }
+
+    @Test
+    void findTasks_exactKeywordMatch_returnsMatchingTasks() {
+        taskList.add(todoTask); // "read book"
+        taskList.add(deadlineTask); // "submit assignment"
+        taskList.add(new Todo("return book"));
+        taskList.add(new Todo("buy groceries"));
+        
+        List<Task> results = taskList.findTasks("book");
+        assertEquals(2, results.size());
+        assertTrue(results.contains(todoTask));
+        assertTrue(results.stream().anyMatch(task -> task.getDescription().equals("return book")));
+    }
+
+    @Test
+    void findTasks_partialKeywordMatch_returnsMatchingTasks() {
+        taskList.add(todoTask); // "read book"
+        taskList.add(deadlineTask); // "submit assignment"
+        taskList.add(new Todo("reading homework"));
+        
+        List<Task> results = taskList.findTasks("read");
+        assertEquals(2, results.size());
+        assertTrue(results.contains(todoTask));
+        assertTrue(results.stream().anyMatch(task -> task.getDescription().equals("reading homework")));
+    }
+
+    @Test
+    void findTasks_caseInsensitiveSearch_returnsMatchingTasks() {
+        taskList.add(new Todo("Read Book"));
+        taskList.add(new Todo("RETURN BOOK"));
+        taskList.add(new Todo("book review"));
+        
+        List<Task> results = taskList.findTasks("BOOK");
+        assertEquals(3, results.size());
+        
+        results = taskList.findTasks("book");
+        assertEquals(3, results.size());
+        
+        results = taskList.findTasks("Book");
+        assertEquals(3, results.size());
+    }
+
+    @Test
+    void findTasks_noMatches_returnsEmptyList() {
+        taskList.add(todoTask);
+        taskList.add(deadlineTask);
+        taskList.add(eventTask);
+        
+        List<Task> results = taskList.findTasks("xyz");
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void findTasks_emptyKeyword_returnsEmptyList() {
+        taskList.add(todoTask);
+        taskList.add(deadlineTask);
+        
+        List<Task> results = taskList.findTasks("");
+        assertTrue(results.isEmpty());
+        
+        results = taskList.findTasks("   ");
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void findTasks_nullKeyword_returnsEmptyList() {
+        taskList.add(todoTask);
+        taskList.add(deadlineTask);
+        
+        List<Task> results = taskList.findTasks(null);
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void findTasks_emptyTaskList_returnsEmptyList() {
+        List<Task> results = taskList.findTasks("book");
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void findTasks_withNullTasks_handlesGracefully() {
+        taskList.add(todoTask);
+        taskList.add(null);
+        taskList.add(deadlineTask);
+        
+        List<Task> results = taskList.findTasks("book");
+        assertEquals(1, results.size());
+        assertTrue(results.contains(todoTask));
+    }
+
+    @Test
+    void findTasks_multipleWordKeyword_returnsMatchingTasks() {
+        taskList.add(new Todo("submit assignment today"));
+        taskList.add(new Todo("assignment due tomorrow"));
+        taskList.add(new Todo("read book assignment"));
+        
+        List<Task> results = taskList.findTasks("assignment");
+        assertEquals(3, results.size());
+    }
+
+    @Test
+    void findTasks_keywordWithSpaces_trimsAndMatches() {
+        taskList.add(todoTask); // "read book"
+        taskList.add(new Todo("book review"));
+        
+        List<Task> results = taskList.findTasks("  book  ");
+        assertEquals(2, results.size());
+    }
 }

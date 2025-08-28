@@ -158,4 +158,39 @@ class ParserTest {
         assertEquals(Parser.CommandType.DELETE, command2.getType());
         assertEquals("abc", command2.getArgument());
     }
+
+    @Test
+    void parse_findCommandWithKeyword_returnsFindCommand() {
+        Parser.Command command = Parser.parse("find book");
+        assertEquals(Parser.CommandType.FIND, command.getType());
+        assertEquals("book", command.getArgument());
+    }
+
+    @Test
+    void parse_findCommandEmpty_returnsFindCommandWithEmptyArgument() {
+        Parser.Command command = Parser.parse("find");
+        assertEquals(Parser.CommandType.FIND, command.getType());
+        assertEquals("", command.getArgument());
+    }
+
+    @Test
+    void parse_findCommandWithoutSpace_returnsFindCommand() {
+        Parser.Command command = Parser.parse("findtest");
+        assertEquals(Parser.CommandType.FIND, command.getType());
+        assertEquals("test", command.getArgument());
+    }
+
+    @Test
+    void parse_findCommandCaseInsensitive_returnsFindCommand() {
+        Parser.Command command = Parser.parse("FIND homework");
+        assertEquals(Parser.CommandType.FIND, command.getType());
+        assertEquals("homework", command.getArgument());
+    }
+
+    @Test
+    void parse_findCommandWithMultipleWords_returnsFindCommand() {
+        Parser.Command command = Parser.parse("find read book");
+        assertEquals(Parser.CommandType.FIND, command.getType());
+        assertEquals("read book", command.getArgument());
+    }
 }
