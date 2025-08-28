@@ -246,13 +246,19 @@ public class Lebron {
                 return;
             }
             
-            Deadline deadline = new Deadline(description, by);
-            itemStore.addItem(deadline);
-            System.out.println("____________________________________________________________");
-            System.out.println(" Got it. I've added this task:");
-            System.out.println("   " + deadline.toString());
-            System.out.println(" Now you have " + itemStore.readItems().size() + " tasks in the list.");
-            System.out.println("____________________________________________________________");
+            try {
+                Deadline deadline = new Deadline(description, by);
+                itemStore.addItem(deadline);
+                System.out.println("____________________________________________________________");
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + deadline.toString());
+                System.out.println(" Now you have " + itemStore.readItems().size() + " tasks in the list.");
+                System.out.println("____________________________________________________________");
+            } catch (IllegalArgumentException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(" OOPS!!! " + e.getMessage());
+                System.out.println("____________________________________________________________");
+            }
         } else {
             System.out.println("____________________________________________________________");
             System.out.println(" OOPS!!! I need both a description and a due date.");
@@ -301,13 +307,19 @@ public class Lebron {
                     return;
                 }
                 
-                Event event = new Event(description, from, to);
-                itemStore.addItem(event);
-                System.out.println("____________________________________________________________");
-                System.out.println(" Got it. I've added this task:");
-                System.out.println("   " + event.toString());
-                System.out.println(" Now you have " + itemStore.readItems().size() + " tasks in the list.");
-                System.out.println("____________________________________________________________");
+                try {
+                    Event event = new Event(description, from, to);
+                    itemStore.addItem(event);
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + event.toString());
+                    System.out.println(" Now you have " + itemStore.readItems().size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" OOPS!!! " + e.getMessage());
+                    System.out.println("____________________________________________________________");
+                }
             } else {
                 System.out.println("____________________________________________________________");
                 System.out.println(" OOPS!!! I need both start and end times for the event.");
