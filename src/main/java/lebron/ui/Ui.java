@@ -12,7 +12,7 @@ import lebron.task.Task;
  * keeps the interface consistent throughout your chat session.
  */
 public class Ui {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public Ui() {
         scanner = new Scanner(System.in);

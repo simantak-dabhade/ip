@@ -23,9 +23,9 @@ import java.util.List;
  * @version 1.0
  */
 public class Lebron {
-    private Storage storage;
+    private final Storage storage;
     private TaskList tasks;
-    private Ui ui;
+    private final Ui ui;
 
     /**
      * Creates a new Lebron chatbot instance and loads existing tasks from storage.
