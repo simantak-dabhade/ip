@@ -3,6 +3,8 @@ import java.util.List;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class TaskStore {
 
@@ -72,15 +74,16 @@ public class TaskStore {
 
     private String formatTaskForFile(Task task) {
         String doneStatus = task.isDone() ? "1" : "0";
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         
         if (task instanceof Todo) {
             return "T | " + doneStatus + " | " + task.getDescription();
         } else if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task;
-            return "D | " + doneStatus + " | " + task.getDescription() + " | " + deadline.getBy();
+            return "D | " + doneStatus + " | " + task.getDescription() + " | " + deadline.getBy().format(formatter);
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            return "E | " + doneStatus + " | " + task.getDescription() + " | " + event.getFrom() + " | " + event.getTo();
+            return "E | " + doneStatus + " | " + task.getDescription() + " | " + event.getFrom().format(formatter) + " | " + event.getTo().format(formatter);
         }
         
         return "";
@@ -97,21 +100,30 @@ public class TaskStore {
         String description = parts[2];
 
         Task task = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         
-        switch (taskType) {
-            case "T":
-                task = new Todo(description);
-                break;
-            case "D":
-                if (parts.length >= 4) {
-                    task = new Deadline(description, parts[3]);
-                }
-                break;
-            case "E":
-                if (parts.length >= 5) {
-                    task = new Event(description, parts[3], parts[4]);
-                }
-                break;
+        try {
+            switch (taskType) {
+                case "T":
+                    task = new Todo(description);
+                    break;
+                case "D":
+                    if (parts.length >= 4) {
+                        LocalDateTime byDateTime = LocalDateTime.parse(parts[3], formatter);
+                        task = new Deadline(description, byDateTime);
+                    }
+                    break;
+                case "E":
+                    if (parts.length >= 5) {
+                        LocalDateTime fromDateTime = LocalDateTime.parse(parts[3], formatter);
+                        LocalDateTime toDateTime = LocalDateTime.parse(parts[4], formatter);
+                        task = new Event(description, fromDateTime, toDateTime);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            System.err.println("Error parsing task from file: " + line + " - " + e.getMessage());
+            return null;
         }
 
         if (task != null) {
@@ -119,5 +131,7 @@ public class TaskStore {
         }
 
         return task;
+
+
     }
 }
