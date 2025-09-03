@@ -102,13 +102,18 @@ public class Ui {
         showLine();
     }
 
+    private void printLines(String... lines) {
+        for (String line : lines) {
+            System.out.println(line);
+        }
+    }
+
     public void showUnknownCommand() {
         showLine();
-        System.out.println(" OOPS!!! I'm sorry, but I don't know what that means :-(");
-        System.out.println(" Try 'list', 'todo <description>', 'deadline <desc> /by <date>',");
-        System.out.println(" 'event <desc> /from <start> /to <end>', 'mark <number>',");
-        System.out.println(" 'unmark <number>', 'delete <number>', 'find <keyword>', or 'bye'.");
-
+        printLines(" OOPS!!! I'm sorry, but I don't know what that means :-(",
+                  " Try 'list', 'todo <description>', 'deadline <desc> /by <date>',",
+                  " 'event <desc> /from <start> /to <end>', 'mark <number>',",
+                  " 'unmark <number>', 'delete <number>', 'find <keyword>', or 'bye'.");
         showLine();
     }
 
