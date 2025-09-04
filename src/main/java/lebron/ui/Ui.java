@@ -117,19 +117,6 @@ public class Ui {
         showLine();
     }
 
-    public void showFindResults(List<Task> matchingTasks, String keyword) {
-        showLine();
-        if (matchingTasks.isEmpty()) {
-            System.out.println(" No matching tasks found with keyword: " + keyword);
-        } else {
-            System.out.println(" Here are the matching tasks in your list:");
-            for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println(" " + (i + 1) + "." + matchingTasks.get(i).toString());
-            }
-        }
-        showLine();
-    }
-
     /**
      * Shows the results of a search operation.
      * 
