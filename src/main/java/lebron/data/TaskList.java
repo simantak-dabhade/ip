@@ -2,7 +2,10 @@ package lebron.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lebron.task.Task;
+import lebron.task.Event;
 
 /**
  * The TaskList class is your personal task manager - it keeps track of all your stuff!
@@ -120,5 +123,94 @@ public class TaskList {
         }
         
         return matchingTasks;
+    }
+
+    /**
+     * Finds the next free time slot of the specified duration.
+     * 
+     * Searches through your schedule to find when you have uninterrupted time.
+     * Considers working hours (9 AM to 9 PM) and looks ahead up to 14 days.
+     * 
+     * @param hoursNeeded the minimum number of hours needed
+     * @return the earliest available free time slot, or null if none found
+     */
+    public FreeTimeSlot findNextFreeTime(int hoursNeeded) {
+        if (hoursNeeded <= 0) {
+            return null;
+        }
+
+        List<Event> events = getEventsFromTasks();
+        LocalDateTime searchStart = LocalDateTime.now();
+        
+        for (int day = 0; day < 14; day++) {
+            LocalDate currentDate = searchStart.toLocalDate().plusDays(day);
+            LocalDateTime dayStart = currentDate.atTime(9, 0);
+            LocalDateTime dayEnd = currentDate.atTime(21, 0);
+            
+            FreeTimeSlot freeSlot = findFreeTimeInDay(dayStart, dayEnd, hoursNeeded, events);
+            if (freeSlot != null) {
+                return freeSlot;
+            }
+        }
+        
+        return null;
+    }
+
+    private List<Event> getEventsFromTasks() {
+        List<Event> events = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task instanceof Event) {
+                events.add((Event) task);
+            }
+        }
+        
+        events.sort((e1, e2) -> e1.getFrom().compareTo(e2.getFrom()));
+        return events;
+    }
+
+    private FreeTimeSlot findFreeTimeInDay(LocalDateTime dayStart, LocalDateTime dayEnd, 
+                                          int hoursNeeded, List<Event> events) {
+        LocalDateTime currentTime = dayStart;
+        
+        // Filter events to only those that overlap with this day
+        List<Event> dayEvents = new ArrayList<>();
+        for (Event event : events) {
+            LocalDateTime eventStart = event.getFrom();
+            LocalDateTime eventEnd = event.getTo();
+            
+            // Check if event overlaps with the day
+            if (!(eventEnd.isBefore(dayStart) || eventStart.isAfter(dayEnd))) {
+                dayEvents.add(event);
+            }
+        }
+        
+        // Sort events by start time
+        dayEvents.sort((e1, e2) -> e1.getFrom().compareTo(e2.getFrom()));
+        
+        // Check time slots between events
+        for (Event event : dayEvents) {
+            LocalDateTime eventStart = event.getFrom().isAfter(dayStart) ? event.getFrom() : dayStart;
+            
+            long availableHours = java.time.Duration.between(currentTime, eventStart).toHours();
+            
+            if (availableHours >= hoursNeeded) {
+                return new FreeTimeSlot(currentTime, currentTime.plusHours(hoursNeeded));
+            }
+            
+            currentTime = event.getTo().isAfter(currentTime) ? event.getTo() : currentTime;
+            if (currentTime.isAfter(dayEnd)) {
+                break;
+            }
+        }
+        
+        // Check remaining time after all events
+        if (currentTime.isBefore(dayEnd)) {
+            long remainingHours = java.time.Duration.between(currentTime, dayEnd).toHours();
+            if (remainingHours >= hoursNeeded) {
+                return new FreeTimeSlot(currentTime, currentTime.plusHours(hoursNeeded));
+            }
+        }
+        
+        return null;
     }
 }
