@@ -64,6 +64,9 @@ public class Ui {
     }
 
     public void showTaskAdded(Task task, int totalTasks) {
+        assert task != null : "Task should not be null when showing task added message";
+        assert totalTasks > 0 : "Total task count should be positive after adding a task";
+        
         showLine();
         System.out.println(" Got it. I've added this task:");
         System.out.println("   " + task.toString());
