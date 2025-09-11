@@ -6,7 +6,7 @@ import lebron.task.Task;
 
 /**
  * The Ui class handles all the conversation between you and Lebron!
- * 
+ *
  * This is where the personality shines through - from the friendly welcome message
  * to the helpful error messages. It knows how to format everything nicely and
  * keeps the interface consistent throughout your chat session.
