@@ -19,7 +19,7 @@ public class Ui {
     }
 
     /**
-     * Shows the friendly welcome message when you first start chatting.
+     * Shows the friendly welcome message when you first start chatting
      */
     public void showWelcome() {
         String welcomeMsg = """
