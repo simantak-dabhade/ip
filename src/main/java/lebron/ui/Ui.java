@@ -3,6 +3,7 @@ package lebron.ui;
 import java.util.Scanner;
 import java.util.List;
 import lebron.task.Task;
+import lebron.data.FreeTimeSlot;
 
 /**
  * The Ui class handles all the conversation between you and Lebron!
@@ -20,6 +21,7 @@ public class Ui {
 
     /**
      * Shows the friendly welcome message when you first start chatting
+     *
      */
     public void showWelcome() {
         String welcomeMsg = """
@@ -116,7 +118,8 @@ public class Ui {
         printLines(" OOPS!!! I'm sorry, but I don't know what that means :-(",
                   " Try 'list', 'todo <description>', 'deadline <desc> /by <date>',",
                   " 'event <desc> /from <start> /to <end>', 'mark <number>',",
-                  " 'unmark <number>', 'delete <number>', 'find <keyword>', or 'bye'.");
+                  " 'unmark <number>', 'delete <number>', 'find <keyword>',",
+                  " 'freetime <hours>', or 'bye'.");
         showLine();
     }
 
@@ -138,6 +141,27 @@ public class Ui {
             for (int i = 0; i < matchingTasks.size(); i++) {
                 System.out.println(" " + (i + 1) + "." + matchingTasks.get(i).toString());
             }
+        }
+        showLine();
+    }
+
+    /**
+     * Shows the result of a free time search.
+     * 
+     * If a free slot was found, displays the time and duration.
+     * If no free time is available, provides a helpful message.
+     * 
+     * @param freeSlot the free time slot found, or null if none available
+     * @param hoursRequested the number of hours that were requested
+     */
+    public void showFreeTimeResult(FreeTimeSlot freeSlot, int hoursRequested) {
+        showLine();
+        if (freeSlot == null) {
+            System.out.println(" Sorry, I couldn't find a " + hoursRequested + " hour free slot in the next 2 weeks.");
+            System.out.println(" Your schedule is pretty packed! Maybe consider shorter time blocks?");
+        } else {
+            System.out.println(" Great news! I found a " + hoursRequested + " hour free slot for you:");
+            System.out.println(" " + freeSlot.toString());
         }
         showLine();
     }

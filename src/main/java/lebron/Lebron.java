@@ -2,6 +2,7 @@ package lebron;
 
 import lebron.storage.Storage;
 import lebron.data.TaskList;
+import lebron.data.FreeTimeSlot;
 import lebron.ui.Ui;
 import lebron.parser.Parser;
 import lebron.task.*;
@@ -89,6 +90,9 @@ public class Lebron {
                         break;
                     case FIND:
                         handleFind(command.getArgument());
+                        break;
+                    case FREETIME:
+                        handleFreeTime(command.getArgument());
                         break;
                     case UNKNOWN:
                         ui.showUnknownCommand();
@@ -271,6 +275,28 @@ public class Lebron {
         
         List<Task> matchingTasks = tasks.findTasks(keyword);
         ui.showFindResults(matchingTasks, keyword);
+    }
+
+    private void handleFreeTime(String hoursStr) {
+        if (hoursStr.trim().isEmpty()) {
+            ui.showError("Please specify how many hours you need.\\nUse: freetime <hours>");
+            return;
+        }
+        
+        try {
+            int hoursNeeded = Integer.parseInt(hoursStr.trim());
+            
+            if (hoursNeeded <= 0) {
+                ui.showError("Please specify a positive number of hours.");
+                return;
+            }
+            
+            FreeTimeSlot freeSlot = tasks.findNextFreeTime(hoursNeeded);
+            ui.showFreeTimeResult(freeSlot, hoursNeeded);
+            
+        } catch (NumberFormatException e) {
+            ui.showError("That's not a valid number of hours.\\nPlease provide a number (e.g., freetime 4)");
+        }
     }
 
     private void saveToStorage() {

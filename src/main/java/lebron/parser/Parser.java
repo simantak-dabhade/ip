@@ -16,7 +16,7 @@ public class Parser {
      * If we don't recognize something, it gets labeled as UNKNOWN.
      */
     public enum CommandType {
-        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, FIND, BYE, UNKNOWN
+        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, FIND, FREETIME, BYE, UNKNOWN
     }
 
     /**
@@ -96,6 +96,9 @@ public class Parser {
 
         Command findCommand = parseCommandWithKeyword(trimmed, "find", CommandType.FIND);
         if (findCommand != null) return findCommand;
+
+        Command freetimeCommand = parseCommandWithKeyword(trimmed, "freetime", CommandType.FREETIME);
+        if (freetimeCommand != null) return freetimeCommand;
 
         return new Command(CommandType.UNKNOWN, trimmed);
     }
