@@ -32,16 +32,15 @@ public class MainWindow extends Application {
         chatHistory = new TextArea();
         chatHistory.setEditable(false);
         chatHistory.setWrapText(true);
-        chatHistory.setPrefRowCount(10);
         
         // Initialize the LeBron chatbot with GUI interface
         lebron = new GuiLebron("./data/lebron_data.txt", chatHistory);
         
         // Create scroll pane for chat history
         ScrollPane scrollPane = new ScrollPane(chatHistory);
-        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        
+
         // Create user input field
         userInput = new TextField();
         userInput.setPromptText("Type your command here (e.g., 'todo buy groceries', 'list', 'bye')");
@@ -65,7 +64,7 @@ public class MainWindow extends Application {
         userInput.setOnAction(e -> handleUserInput()); // Handle Enter key
         
         // Create the scene
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 600, 600);
         
         // Set up the stage (window)
         stage.setTitle("LeBron - Task Manager");
