@@ -29,6 +29,12 @@ public class Parser {
         private final CommandType type;
         private final String argument;
 
+        /**
+         * Creates a new Command with the specified type and argument.
+         * 
+         * @param type the type of command
+         * @param argument any additional information for the command
+         */
         public Command(CommandType type, String argument) {
             this.type = type;
             this.argument = argument;

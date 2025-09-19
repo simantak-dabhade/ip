@@ -82,6 +82,15 @@ public class Storage {
         }
     }
 
+    /**
+     * Formats a task for storage in the file.
+     * 
+     * Creates a pipe-separated format that includes task type, completion status,
+     * description, and any time-related information for deadlines and events.
+     * 
+     * @param task the task to format
+     * @return a formatted string ready for file storage
+     */
     private String formatTaskForFile(Task task) {
         String doneStatus = task.isDone() ? "1" : "0";
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -99,6 +108,16 @@ public class Storage {
         return "";
     }
 
+    /**
+     * Parses a task from a line in the storage file.
+     * 
+     * Expects a pipe-separated format with task type, completion status,
+     * description, and any time information. Handles parsing errors gracefully
+     * by returning null for malformed lines.
+     * 
+     * @param line the line from the file to parse
+     * @return the parsed Task object, or null if parsing fails
+     */
     private Task parseTaskFromFile(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
