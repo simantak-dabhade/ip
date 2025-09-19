@@ -3,6 +3,7 @@ package lebron.ui;
 import java.util.List;
 import javafx.scene.control.TextArea;
 import lebron.task.Task;
+import lebron.data.FreeTimeSlot;
 
 /**
  * GUI version of the Ui class that outputs to a JavaFX TextArea instead of console.
@@ -113,6 +114,18 @@ public class GuiUi {
             for (int i = 0; i < matchingTasks.size(); i++) {
                 chatHistory.appendText(" " + (i + 1) + "." + matchingTasks.get(i).toString() + "\n");
             }
+        }
+        showLine();
+        scrollToBottom();
+    }
+
+    public void showFreeTimeResult(FreeTimeSlot freeSlot, int hoursNeeded) {
+        showLine();
+        if (freeSlot == null) {
+            chatHistory.appendText(" Sorry, I couldn't find any free time slots of " + hoursNeeded + " hours.\n");
+        } else {
+            chatHistory.appendText(" Found a free time slot:\n");
+            chatHistory.appendText("   " + freeSlot.toString() + "\n");
         }
         showLine();
         scrollToBottom();
