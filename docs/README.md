@@ -26,7 +26,7 @@ ____________________________________________________________
  Got it. I've added this task:
    [T][ ] read CS2103T textbook
  Now you have 1 tasks in the list.
-____________________________________________________________
+__./gradlew clean shadowJar__________________________________________________________
 ```
 
 ## Adding Deadlines

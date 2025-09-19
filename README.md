@@ -29,7 +29,7 @@ java -cp build/classes/java/main lebron.Lebron
 **JAR File:**
 ```bash
 ./gradlew shadowJar
-java -jar build/libs/duke.jar
+java -jar build/libs/lebron.jar
 ```
 
 ### Basic Commands
