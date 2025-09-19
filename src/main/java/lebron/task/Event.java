@@ -4,39 +4,94 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents a task that occurs during a specific time period.
+ * 
+ * An Event task has a start time and an end time, representing when the event
+ * occurs. Like other tasks, it can be marked as done and supports multiple
+ * date-time formats for user convenience.
+ */
 public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
 
+    /**
+     * Creates a new Event task with the given description and time period strings.
+     * 
+     * @param description what this event task is about
+     * @param fromStr the start time in string format (supports multiple formats)
+     * @param toStr the end time in string format (supports multiple formats)
+     * @throws IllegalArgumentException if any date string is invalid or empty
+     */
     public Event(String description, String fromStr, String toStr) {
         super(description);
         this.from = parseDateTime(fromStr);
         this.to = parseDateTime(toStr);
     }
 
+    /**
+     * Creates a new Event task with the given description and time period.
+     * 
+     * @param description what this event task is about
+     * @param from the start time as a LocalDateTime object
+     * @param to the end time as a LocalDateTime object
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
     }
 
+    /**
+     * Gets the start time of this event.
+     * 
+     * @return the start time as a LocalDateTime object
+     */
     public LocalDateTime getFrom() {
         return from;
     }
 
+    /**
+     * Gets the end time of this event.
+     * 
+     * @return the end time as a LocalDateTime object
+     */
     public LocalDateTime getTo() {
         return to;
     }
 
+    /**
+     * Gets the start time formatted as a human-readable string.
+     * 
+     * @return the start time formatted as "MMM dd yyyy HH:mm" (e.g., "Dec 25 2024 14:00")
+     */
     public String getFromString() {
         return from.format(OUTPUT_FORMATTER);
     }
 
+    /**
+     * Gets the end time formatted as a human-readable string.
+     * 
+     * @return the end time formatted as "MMM dd yyyy HH:mm" (e.g., "Dec 25 2024 16:00")
+     */
     public String getToString() {
         return to.format(OUTPUT_FORMATTER);
     }
 
+    /**
+     * Parses a date-time string into a LocalDateTime object.
+     * 
+     * Supports multiple formats:
+     * - yyyy-mm-dd (defaults to 00:00:00)
+     * - yyyy-mm-dd HHmm
+     * - d/m/yyyy (defaults to 00:00:00)
+     * - d/m/yyyy HHmm
+     * 
+     * @param dateTimeStr the date-time string to parse
+     * @return the parsed LocalDateTime
+     * @throws IllegalArgumentException if the string is null, empty, or in an invalid format
+     */
     private LocalDateTime parseDateTime(String dateTimeStr) {
         if (dateTimeStr == null || dateTimeStr.trim().isEmpty()) {
             throw new IllegalArgumentException("Date cannot be empty");
@@ -90,11 +145,23 @@ public class Event extends Task {
         }
     }
 
+    /**
+     * Returns the type icon for event tasks.
+     * 
+     * @return "[E]" to indicate this is an Event task
+     */
     @Override
     public String getTypeIcon() {
         return "[E]";
     }
 
+    /**
+     * Creates a string representation of this event task.
+     * 
+     * Includes the type icon, completion status, description, and formatted time period.
+     * 
+     * @return a formatted string like "[E][X] meeting (from: Dec 25 2024 14:00 to: Dec 25 2024 16:00)"
+     */
     @Override
     public String toString() {
         return getTypeIcon() + (done ? "[X] " : "[ ] ") + description + " (from: " + getFromString() + " to: " + getToString() + ")";
