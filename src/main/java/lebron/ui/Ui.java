@@ -20,7 +20,7 @@ public class Ui {
     }
 
     /**
-     * Shows the friendly welcome message when you first start chatting
+     * Shows the friendly welcome message when you first start chatting.
      *
      */
     public void showWelcome() {
@@ -34,7 +34,7 @@ public class Ui {
     }
 
     /**
-     * Shows a nice goodbye message when you're ready to leave.
+     * Shows a nice goodbye message when you're ready to leave the application.
      */
     public void showGoodbye() {
         String goodbyeMsg = """
