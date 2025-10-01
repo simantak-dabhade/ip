@@ -9,7 +9,7 @@ import lebron.task.*;
 import java.util.List;
 
 /**
- * The main class for the Lebron chatbot - your personal task management assistant.
+ * The main class and entry point for the Lebron chatbot - your personal task management assistant.
  * 
  * This chatbot helps you keep track of todos, deadlines, and events through a simple
  * command-line interface. Just like the GOAT himself, it's reliable and gets the job done!
