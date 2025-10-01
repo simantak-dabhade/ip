@@ -7,6 +7,7 @@ import lebron.data.FreeTimeSlot;
 
 /**
  * The Ui class handles all the conversation between you and Lebron!
+ * For the GUI stuff refer tot he GuiUI file!
  *
  * This is where the personality shines through - from the friendly welcome message
  * to the helpful error messages. It knows how to format everything nicely and
