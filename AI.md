@@ -6,3 +6,5 @@ I realised since we have already worked quite a bit in OOP, i was able to speed 
 claude very targeted and precise dierections like (create this class, add these methods <insert methods> and override the to-string method to output in this format...)
 
 Also noticed that it is very good at making very large refactoring changes.
+
+Also learned that when it comes to generating tests, or updating them to deal with changes, the models were also really good.
