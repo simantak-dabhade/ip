@@ -6,7 +6,7 @@ Lebron is a personal task management application that helps you organize your to
 
 - **Multiple Task Types**: Create todos, deadlines with due dates, and events with time periods
 - **Smart Date Parsing**: Supports various date formats (yyyy-mm-dd, d/m/yyyy, with optional times)
-- **Task Management**: Mark tasks as done/undone, delete tasks, and view your task list
+- **Task Management**: Mark tasks as done/pending, delete tasks, and view your task list
 - **Search Functionality**: Find tasks by keywords with case-insensitive partial matching
 - **Free Time Finder**: Find available time slots in your schedule
 - **Persistent Storage**: Your tasks are automatically saved and loaded between sessions
